@@ -19,16 +19,22 @@
     <Filter Include="ヘッダー ファイル\system">
       <UniqueIdentifier>{cc418200-0e58-4f4b-9885-eeb624c6bc3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GamePlay">
+      <UniqueIdentifier>{5688d983-18ce-4947-b9e9-e3bff8f8b7d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GamePlay">
+      <UniqueIdentifier>{11ac0084-6a66-4609-819b-a8ff9c3ad4c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="system\Initialize.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
     <ClCompile Include="GamePlay.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -36,7 +42,7 @@
       <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
     <ClInclude Include="GamePlay.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\GamePlay</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

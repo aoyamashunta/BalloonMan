@@ -12,12 +12,10 @@ void GamePlay::game() {
 		{
 			break;
 		}
-
-
-
+		
 		//描画処理
 		DrawCircle(200,300,16,GetColor(255,255,255));
-
+		DrawFormatString(0,0,GetColor(255,255,255),"これはテストです。");
 
 
 		//---------  ここまでにプログラムを記述  ---------//

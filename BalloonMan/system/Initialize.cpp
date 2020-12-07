@@ -1,7 +1,7 @@
 #include "Initialize.h"
 #include "DxLib.h"
 
-const char TITLE[] = "学籍番号名前：タイトル";
+const char TITLE[] = "BalloonMan(仮)";
 
 const int WIN_WIDTH = 600; //ウィンドウ横幅
 const int WIN_HEIGHT = 400;//ウィンドウ縦幅

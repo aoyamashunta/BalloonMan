@@ -36,12 +36,24 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
+    <ClCompile Include="selectStage.cpp">
+      <Filter>ソース ファイル\GamePlay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\Initialize.h">
       <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
     <ClInclude Include="GamePlay.h">
+      <Filter>ヘッダー ファイル\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="selectStage.h">
       <Filter>ヘッダー ファイル\GamePlay</Filter>
     </ClInclude>
   </ItemGroup>

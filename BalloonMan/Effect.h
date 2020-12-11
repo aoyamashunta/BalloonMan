@@ -1,8 +1,8 @@
 #pragma once
 
-class Easing {
+class Effect {
 private:
-	Easing();
+	Effect();
 public:
 	static double EaseIn(double x, int y);
 	static double EaseOut(double x, int y);

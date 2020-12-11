@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "DxLib.h"
 #include "Input.h"
-#include "Easing.h"
+#include "Effect.h"
 
 Player::Player(int playerX, int playerY, int graph, int airRemain, int speed, int radius, int width, int height) :
 	playerX(playerX),
@@ -66,7 +66,7 @@ void Player::PlayerRun() {
 	if(rightSwich) {
 		if(flame <= maxFlame) {
 			flame++;
-			playerX = oldPlayerX + 10 * Easing::EaseIn(flame / maxFlame, 5);
+			playerX = oldPlayerX + 10 * Effect::EaseIn(flame / maxFlame, 5);
 		}
 		else {
 			flame = 0;
@@ -77,7 +77,7 @@ void Player::PlayerRun() {
 	if(leftSwich) {
 		if(flame <= maxFlame) {
 			flame++;
-			playerX = oldPlayerX - 10 * Easing::EaseIn(flame / maxFlame, 5);
+			playerX = oldPlayerX - 10 * Effect::EaseIn(flame / maxFlame, 5);
 		}
 		else {
 			flame = 0;

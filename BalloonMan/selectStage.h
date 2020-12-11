@@ -1,10 +1,10 @@
 #pragma once
 
-class selectStage {
+class SelectStage {
 private:
 	int stageNum;
 public:
-	selectStage(int stageNum):
-		stageNum(stageNum)
-	{}
+	SelectStage(int stageNum);
+
+	void loadStage();
 };

@@ -106,7 +106,6 @@ void Player::PlayerRun() {
 }
 
 void Player::StateCheck() {
-	if()
 }
 
 bool Player::IsPlayerAlive() {

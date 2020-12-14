@@ -1,13 +1,15 @@
 #pragma once
 
 class Player {
-private:
-	int playerX;
-	int playerY;
-	int oldPlayerX;
-	int oldPlayerY;
+//private:
+public:
+	double playerX;
+	double playerY;
+	double oldPlayerX;
+	double oldPlayerY;
 	int graph;
 	int airRemain;
+	int oldAirRemain;
 	int speed;
 	int radius;
 	int width;
@@ -17,15 +19,17 @@ private:
 	bool airSwich = false;
 	bool floatSwich = false;
 	int flame = 0;
-	int maxFlame = 300;
+	float maxFlame = 50;
+	bool playerAlive = true;
 public:
-	Player(int playerX, int playerY,int graph,int airRemain = 70, int speed = 4, int radius = 8, int width = 16, int height = 16);
+	Player(double playerX, double playerY,double graph,double airRemain = 70, int speed = 4, int radius = 8, int width = 16, int height = 16);
 
 	void Update();
 	void Draw();
 
 private:
-	void Move();
 	void PlayerInput();
 	void PlayerRun();
+	void StateCheck();
+	bool IsPlayerAlive();
 };

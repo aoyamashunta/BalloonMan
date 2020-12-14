@@ -2,11 +2,14 @@
 #include "DxLib.h"
 #include "system/Initialize.h"
 #include "Input.h"
+#include "Player.h"
 
 void GamePlay::game() {
 	//変数の宣言
 	int stageFlag = 0;
-
+	
+	int graph = LoadGraph("player.png");
+	Player *player1 = new Player(200,300,graph); 
 	
 	while(1) {
 		ClearDrawScreen();
@@ -29,21 +32,24 @@ void GamePlay::game() {
 			stageFlag = 4;
 		}
 
-		if(Input::isKeyTrigger(KEY_INPUT_A)) {
+		if(Input::isKeyTrigger(KEY_INPUT_Q)) {
 			break;
 		}
 
 		//更新処理
 		if(stageFlag == 1) {
+			player1->Update();
+			player1->Draw();
 		}
 
 
 
 		//描画処理
 		DrawFormatString(0, 0, GetColor(255, 255, 255), "stageFlag : %d",stageFlag);
-
+		DrawFormatString(0, 15, GetColor(255, 255, 255), "player.flame : %d",player1->airRemain);
 
 		//---------  ここまでにプログラムを記述  ---------//
 		if(DXlibfina() == -1) { break; }
 	}
+	delete player1;
 }

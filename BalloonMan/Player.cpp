@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "Effect.h"
 
-Player::Player(int playerX, int playerY, int graph, int airRemain, int speed, int radius, int width, int height) :
+Player::Player(double playerX, double playerY, double graph, double airRemain, int speed, int radius, int width, int height) :
 	playerX(playerX),
 	playerY(playerY),
 	oldPlayerX(playerX),
@@ -17,7 +17,8 @@ Player::Player(int playerX, int playerY, int graph, int airRemain, int speed, in
 }
 
 void Player::Update() {
-	Move();
+	PlayerInput();
+	PlayerRun();
 }
 
 void Player::Draw() {
@@ -31,45 +32,51 @@ void Player::Draw() {
 
 	}
 	else {
-		DrawGraph(playerX, playerY, graph, 1);
+		//DrawGraph(playerX, playerY, graph, 1);
 	}
-}
 
-void Player::Move() {
-	PlayerInput();
-	PlayerRun();
+	DrawGraph(playerX, playerY, graph, 1);
 }
 
 void Player::PlayerInput() {
 	if(Input::isKeyTrigger(KEY_INPUT_RIGHT) || Input::isKeyTrigger(KEY_INPUT_D)) {
-		if(!leftSwich && !rightSwich) {
+		if(!leftSwich && !rightSwich && !airSwich) {
 			rightSwich = true;
 			oldPlayerX = playerX;
 		}
 	}
 
 	if(Input::isKeyTrigger(KEY_INPUT_LEFT) || Input::isKeyTrigger(KEY_INPUT_A)) {
-		if(!leftSwich && !rightSwich) {
+		if(!leftSwich && !rightSwich && !airSwich) {
 			leftSwich = true;
 			oldPlayerX = playerX;
 		}
 	}
 
 	if(Input::isKeyTrigger(KEY_INPUT_SPACE)) {
-		if(!airSwich) {
+		if(!leftSwich && !rightSwich && !airSwich) {
 			airSwich = true;
+			oldAirRemain = airRemain;
 		}
 	}
 }
 
 void Player::PlayerRun() {
+	if(!airSwich && airRemain >= 80) {
+		playerY -= 0.5;
+	}
+	else if(!airSwich) {
+		playerY += 0.5;
+	}
+
 	if(rightSwich) {
 		if(flame <= maxFlame) {
 			flame++;
-			playerX = oldPlayerX + 10 * Effect::EaseIn(flame / maxFlame, 5);
+			playerX = oldPlayerX + 100 * Effect::EaseOutQuart(flame / maxFlame, 5);
 		}
 		else {
 			flame = 0;
+			airRemain -= 5;
 			rightSwich = false;
 		}
 	}
@@ -77,15 +84,31 @@ void Player::PlayerRun() {
 	if(leftSwich) {
 		if(flame <= maxFlame) {
 			flame++;
-			playerX = oldPlayerX - 10 * Effect::EaseIn(flame / maxFlame, 5);
+			playerX = oldPlayerX - 100 * Effect::EaseOutQuart(flame / maxFlame, 5);
 		}
 		else {
 			flame = 0;
+			airRemain -= 5;
 			leftSwich = false;
 		}
 	}
 
 	if(airSwich) {
-
+		if(flame <= maxFlame) {
+			flame++;
+			airRemain = oldAirRemain + 11 * Effect::EaseOutQuart(flame / maxFlame, 5);
+		}
+		else {
+			flame = 0;
+			airSwich = false;
+		}
 	}
+}
+
+void Player::StateCheck() {
+	if()
+}
+
+bool Player::IsPlayerAlive() {
+	return playerAlive;
 }

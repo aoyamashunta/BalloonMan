@@ -6,7 +6,8 @@ private:
 	int mapY;
 	int mapXSize;
 	int mapYSize;
-	int mapchip[3];
+	int mapChipHandle[3];
 public:
 	BackGround();
+	void mapLoad();
 };

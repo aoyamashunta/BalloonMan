@@ -1,7 +1,7 @@
 #pragma once
+#include "BackGround.h"
 
 class Player {
-//private:
 public:
 	double playerX;
 	double playerY;
@@ -10,7 +10,7 @@ public:
 	int graph;
 	int airRemain;
 	int oldAirRemain;
-	int speed;
+	float speed;
 	int radius;
 	int width;
 	int height;
@@ -21,8 +21,8 @@ public:
 	int flame = 0;
 	float maxFlame = 50;
 	bool playerAlive = true;
-public:
-	Player(double playerX, double playerY,double graph,double airRemain = 70, int speed = 4, int radius = 8, int width = 16, int height = 16);
+	
+	Player(double playerX, double playerY,double graph,double airRemain = 70, float speed = 0.5, int radius = 8, int width = 16, int height = 16);
 
 	void Update();
 	void Draw();
@@ -31,5 +31,6 @@ private:
 	void PlayerInput();
 	void PlayerRun();
 	void StateCheck();
+	void PlayerHit(BackGround stage);
 	bool IsPlayerAlive();
 };

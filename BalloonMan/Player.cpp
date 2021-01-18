@@ -1,9 +1,11 @@
 #include "Player.h"
 #include "DxLib.h"
+#include <algorithm>
 #include "Input.h"
 #include "Effect.h"
+#include "CheckHit.h"
 
-Player::Player(double playerX, double playerY, double graph, double airRemain, int speed, int radius, int width, int height) :
+Player::Player(double playerX, double playerY, double graph, double airRemain, float speed, int radius, int width, int height) :
 	playerX(playerX),
 	playerY(playerY),
 	oldPlayerX(playerX),
@@ -62,12 +64,19 @@ void Player::PlayerInput() {
 }
 
 void Player::PlayerRun() {
-	if(!airSwich && airRemain >= 80) {
-		playerY -= 0.5;
+	oldPlayerX = playerX;
+	oldPlayerY = playerY;
+
+	if(!airSwich)
+	{
+		if(airRemain >= 80) {
+			playerY -= speed + airRemain * 0.1;
+		}
+		else{
+			playerY += speed;
+		}
 	}
-	else if(!airSwich) {
-		playerY += 0.5;
-	}
+
 
 	if(rightSwich) {
 		if(flame <= maxFlame) {
@@ -106,6 +115,34 @@ void Player::PlayerRun() {
 }
 
 void Player::StateCheck() {
+}
+
+void Player::PlayerHit(BackGround stage) {
+	for(int i = 0; i < 200; i++) {
+		for(int j = 0; j < 200; j++) {
+			if(stage.returnMap(i, j) == 1) {
+				if(CheckHit::checkHit(playerX,
+									  playerY,
+									  width,
+									  height,
+									  stage.returnXSize() * i,
+									  stage.returnYSize() * j,
+									  stage.returnXSize(),
+									  stage.returnYSize())) {
+					if(playerX != oldPlayerX) {
+						playerX = max(playerX, oldPlayerX);
+						playerX /= stage.returnXSize();
+						playerX *= stage.returnXSize();
+					}
+					if(playerY != oldPlayerY) {
+						playerY = max(playerY, oldPlayerY);
+						playerY /= stage.returnYSize();
+						playerY *= stage.returnYSize();
+					}
+				}
+			}
+		}
+	}
 }
 
 bool Player::IsPlayerAlive() {

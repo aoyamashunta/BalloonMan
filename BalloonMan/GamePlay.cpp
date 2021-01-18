@@ -2,15 +2,18 @@
 #include "DxLib.h"
 #include "system/Initialize.h"
 #include "Input.h"
-#include "Player.h"
+#include "BackGround.h"
 
-void GamePlay::game() {
+BackGround *stage;
+Player *player;
+
+void GamePlay::MainMenu() {
 	//変数の宣言
-	int stageFlag = 0;
-	
 	int graph = LoadGraph("player.png");
-	Player *player1 = new Player(200,300,graph); 
-	
+
+
+	gameEnd = false;
+
 	while(1) {
 		ClearDrawScreen();
 		//---------  ここからプログラムを記述  ----------//
@@ -18,6 +21,10 @@ void GamePlay::game() {
 		Input::Update();
 		if(Input::isKeyTrigger(KEY_INPUT_1)) {
 			stageFlag = 1;
+			const char *stageName = { "stage.csv" };
+			stage = new BackGround(stageName);
+			PlayIni(*stage);
+			player = new Player(stage->returnXIni(), stage->returnYIni(), graph);
 		}
 
 		if(Input::isKeyTrigger(KEY_INPUT_2)) {
@@ -36,20 +43,35 @@ void GamePlay::game() {
 			break;
 		}
 
-		//更新処理
-		if(stageFlag == 1) {
-			player1->Update();
-			player1->Draw();
+		if(!Play(*stage,*player)) {
+			break;
 		}
 
 
 
 		//描画処理
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "stageFlag : %d",stageFlag);
-		DrawFormatString(0, 15, GetColor(255, 255, 255), "player.flame : %d",player1->airRemain);
+		//debug
+		//DrawFormatString(0, 0, GetColor(255, 255, 255), "stageFlag : %d",stageFlag);
+		//DrawFormatString(0, 15, GetColor(255, 255, 255), "player.flame : %d",player1->airRemain);
 
 		//---------  ここまでにプログラムを記述  ---------//
+		if(gameEnd == true) { break; }
 		if(DXlibfina() == -1) { break; }
 	}
-	delete player1;
+}
+
+bool GamePlay::PlayIni(BackGround &stage) {
+	if(stage.loadFail()) { return false; }
+	stage.mapChip();
+}
+
+bool GamePlay::Play(BackGround &stage,Player &player) {
+
+	if(stageFlag == 1) {
+		stage.mapChip();
+
+		player.Update();
+		player.Draw();
+	}
+	return true;
 }

@@ -3,15 +3,22 @@
 #include "BackGround.h"
 
 class GamePlay {
-public:
+private:
 	bool gameEnd;
 	int stageFlag;
+	int sceneFlag = 2;
 	bool stageEnd;
-	
+	BackGround *stage;
+	Player *player;
+
+public:
 	GamePlay() {
-		MainMenu();
+		Game();
 	}
+	void Game();
+private:
+	void Start();
 	void MainMenu();
-	bool PlayIni(BackGround &stage);
-	bool Play(BackGround &stage,Player &player);
+	bool PlayIni(const char *mapName);
+	bool Play();
 };

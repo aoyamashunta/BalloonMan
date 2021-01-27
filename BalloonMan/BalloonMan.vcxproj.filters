@@ -25,6 +25,12 @@
     <Filter Include="ヘッダー ファイル\GamePlay">
       <UniqueIdentifier>{11ac0084-6a66-4609-819b-a8ff9c3ad4c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Effect">
+      <UniqueIdentifier>{b5e02bb9-8d4a-4cbd-b108-09a1315723b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Effect">
+      <UniqueIdentifier>{777064ae-80e4-44be-8321-6bb242a96150}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="system\Initialize.cpp">
@@ -42,9 +48,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル\GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>ソース ファイル\GamePlay</Filter>
     </ClCompile>
@@ -53,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="CheckHit.cpp">
       <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTrans.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,12 +74,6 @@
     <ClInclude Include="Input.h">
       <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>ヘッダー ファイル\GamePlay</Filter>
     </ClInclude>
@@ -79,6 +82,15 @@
     </ClInclude>
     <ClInclude Include="CheckHit.h">
       <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTrans.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

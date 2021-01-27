@@ -134,6 +134,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneTrans.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="system\Initialize.cpp" />
   </ItemGroup>
@@ -144,6 +145,7 @@
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SceneTrans.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="system\Initialize.h" />
   </ItemGroup>

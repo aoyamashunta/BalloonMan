@@ -1,26 +1,37 @@
 #include "Player.h"
 #include "DxLib.h"
-#include <algorithm>
 #include "Input.h"
 #include "Effect.h"
 #include "CheckHit.h"
 
-Player::Player(double playerX, double playerY, double graph, double airRemain, float speed, int radius, int width, int height) :
+extern enum blocknum {
+	NONE,
+	BLOCK,
+	PLAYER,
+	GOAL
+};
+
+Player::Player(double playerX, double playerY, int airRemain, float speed, int radius, int width, int height) :
 	playerX(playerX),
 	playerY(playerY),
 	oldPlayerX(playerX),
 	oldPlayerY(playerY),
-	graph(graph),
+	oldPlayerXHit(0),
+	oldPlayerYHit(0),
 	airRemain(airRemain),
+	oldAirRemain(0),
 	speed(speed),
 	radius(radius),
 	width(width),
-	height(height) {
+	height(height),
+	stageClear(false) {
+	graph = LoadGraph("player.png");
 }
 
-void Player::Update() {
+void Player::Update(BackGround stage) {
 	PlayerInput();
 	PlayerRun();
+	PlayerHit(stage);
 }
 
 void Player::Draw() {
@@ -37,7 +48,7 @@ void Player::Draw() {
 		//DrawGraph(playerX, playerY, graph, 1);
 	}
 
-	DrawGraph(playerX, playerY, graph, 1);
+	DrawGraph((int)playerX, (int)playerY, graph, 1);
 }
 
 void Player::PlayerInput() {
@@ -64,15 +75,15 @@ void Player::PlayerInput() {
 }
 
 void Player::PlayerRun() {
-	oldPlayerX = playerX;
-	oldPlayerY = playerY;
-
-	if(!airSwich)
-	{
+	oldPlayerXHit = (int)playerX;
+	oldPlayerYHit = (int)playerY;
+	if(!airSwich) {
 		if(airRemain >= 80) {
-			playerY -= speed + airRemain * 0.1;
+			speed = (float)0.5 + (float)(airRemain - 80) * 0.1;
+			playerY -= speed;
 		}
-		else{
+		else {
+			speed = 0.5;
 			playerY += speed;
 		}
 	}
@@ -81,7 +92,8 @@ void Player::PlayerRun() {
 	if(rightSwich) {
 		if(flame <= maxFlame) {
 			flame++;
-			playerX = oldPlayerX + 100 * Effect::EaseOutQuart(flame / maxFlame, 5);
+			playerX = oldPlayerX + 100 *
+				Effect::EaseOutQuart(flame / maxFlame, 5);
 		}
 		else {
 			flame = 0;
@@ -93,7 +105,8 @@ void Player::PlayerRun() {
 	if(leftSwich) {
 		if(flame <= maxFlame) {
 			flame++;
-			playerX = oldPlayerX - 100 * Effect::EaseOutQuart(flame / maxFlame, 5);
+			playerX = oldPlayerX - 100 *
+				Effect::EaseOutQuart(flame / maxFlame, 5);
 		}
 		else {
 			flame = 0;
@@ -114,33 +127,110 @@ void Player::PlayerRun() {
 	}
 }
 
-void Player::StateCheck() {
+bool Player::CheckFlyStates() {
+	return flyStates;
 }
 
 void Player::PlayerHit(BackGround stage) {
-	for(int i = 0; i < 200; i++) {
+	for(int i = 0; i < 20; i++) {
 		for(int j = 0; j < 200; j++) {
-			if(stage.returnMap(i, j) == 1) {
-				if(CheckHit::checkHit(playerX,
-									  playerY,
+			if(stage.ReturnMap(i, j) == BLOCK) {
+				PlayerHitSub(stage, i, j);
+			}
+			else if(stage.ReturnMap(i, j) == GOAL) {
+				if(CheckHit::checkHit((int)playerX,
+									  (int)playerY,
 									  width,
 									  height,
-									  stage.returnXSize() * i,
-									  stage.returnYSize() * j,
-									  stage.returnXSize(),
-									  stage.returnYSize())) {
-					if(playerX != oldPlayerX) {
-						playerX = max(playerX, oldPlayerX);
-						playerX /= stage.returnXSize();
-						playerX *= stage.returnXSize();
-					}
-					if(playerY != oldPlayerY) {
-						playerY = max(playerY, oldPlayerY);
-						playerY /= stage.returnYSize();
-						playerY *= stage.returnYSize();
-					}
+									  stage.ReturnXSize() * i,
+									  stage.ReturnYSize() * j,
+									  stage.ReturnXSize(),
+									  stage.ReturnYSize())) {
+					stageClear = true;
 				}
 			}
+		}
+	}
+}
+
+void Player::PlayerHitSub(BackGround stage, int i, int j) {
+	//¶ã‚Ì“–‚½‚è”»’è
+	if((int)playerX / stage.ReturnXSize() == i &&
+	   (int)playerY / stage.ReturnYSize() == j ) {
+		if((int)playerX / stage.ReturnXSize() == i &&
+		   (int)oldPlayerYHit / stage.ReturnYSize() == j )
+		{
+			playerX = oldPlayerXHit;
+		}
+		else if((int)oldPlayerXHit / stage.ReturnXSize() == i &&
+				(int)playerY / stage.ReturnYSize() == j )
+		{
+			playerY = oldPlayerYHit;
+		}
+		else
+		{
+			playerX = oldPlayerXHit;
+			playerY = oldPlayerYHit;
+		}
+	}
+
+	//‰Eã‚Ì“–‚½‚è”»’è
+	if(((int)playerX + width) / stage.ReturnXSize() == i &&
+	   (int)playerY / stage.ReturnYSize() == j ) {
+		if(((int)playerX + width) / stage.ReturnXSize() == i &&
+		   (int)oldPlayerYHit / stage.ReturnYSize() == j )
+		{
+			playerX = oldPlayerXHit;
+		}
+		else if(((int)oldPlayerXHit + width) / stage.ReturnXSize() == i &&
+				(int)playerY / stage.ReturnYSize() == j )
+		{
+			playerY = oldPlayerYHit;
+		}
+		else
+		{
+			playerX = oldPlayerXHit;
+			playerY = oldPlayerYHit;
+		}
+	}
+
+	//¶‰º‚Ì“–‚½‚è”»’è
+	if((int)playerX / stage.ReturnXSize() == i &&
+	   ((int)playerY + height) / stage.ReturnYSize() == j ) {
+		if((int)playerX / stage.ReturnXSize() == i &&
+		   ((int)oldPlayerYHit + height) / stage.ReturnYSize() == j )
+		{
+			playerX = oldPlayerXHit;
+		}
+		else if((int)oldPlayerXHit / stage.ReturnXSize() == i &&
+				((int)playerY + height) / stage.ReturnYSize() == j )
+		{
+			playerY = oldPlayerYHit;
+		}
+		else
+		{
+			playerX = oldPlayerXHit;
+			playerY = oldPlayerYHit;
+		}
+	}
+
+	//‰E‰º‚Ì“–‚½‚è”»’è
+	if(((int)playerX + width) / stage.ReturnXSize() == i &&
+	   ((int)playerY + height) / stage.ReturnYSize() == j ) {
+		if(((int)playerX + width) / stage.ReturnXSize() == i &&
+		   ((int)oldPlayerYHit + height) / stage.ReturnYSize() == j )
+		{
+			playerX = oldPlayerXHit;
+		}
+		else if(((int)oldPlayerXHit + width) / stage.ReturnXSize() == i &&
+				((int)playerY + height) / stage.ReturnYSize() == j )
+		{
+			playerY = oldPlayerYHit;
+		}
+		else
+		{
+			playerX = oldPlayerXHit;
+			playerY = oldPlayerYHit;
 		}
 	}
 }

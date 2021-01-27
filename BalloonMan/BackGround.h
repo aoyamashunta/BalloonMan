@@ -1,5 +1,4 @@
 #pragma once
-#include "Player.h"
 
 class BackGround {
 private:
@@ -8,31 +7,31 @@ private:
 	int mapYSize;
 	int mapChipMax;
 	int mapChipHandle[10];
-	int map[200][200];
+	int map[200][20];
 	bool error;
 	int playerXIni;
 	int playerYIni;
 public:
 	BackGround(const char *mapName);
-	void mapReWrite(const unsigned char data[200][200]);
-	bool mapLoad();
-	void mapChip();
-	bool loadFail(){
+	bool MapLoad();
+	void MapChip();
+	void LoadPlayerIni();
+	bool LoadFail(){
 		return error;
 	} 
-	int returnXIni(){
+	int ReturnXIni(){
 		return playerXIni;
 	}
-	int returnYIni(){
+	int ReturnYIni(){
 		return playerYIni;
 	}
-	int returnMap(int i, int j) {
-		return map[i][j];
+	int ReturnMap(int x, int y) {
+		return map[y][x];
 	}
-	int returnXSize(){
+	int ReturnXSize(){
 		return mapXSize;
 	}
-	int returnYSize(){
+	int ReturnYSize(){
 		return mapYSize;
 	}
 };

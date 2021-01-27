@@ -2,11 +2,13 @@
 #include "BackGround.h"
 
 class Player {
-public:
+private:
 	double playerX;
 	double playerY;
 	double oldPlayerX;
 	double oldPlayerY;
+	int oldPlayerXHit;
+	int oldPlayerYHit;
 	int graph;
 	int airRemain;
 	int oldAirRemain;
@@ -21,16 +23,29 @@ public:
 	int flame = 0;
 	float maxFlame = 50;
 	bool playerAlive = true;
-	
-	Player(double playerX, double playerY,double graph,double airRemain = 70, float speed = 0.5, int radius = 8, int width = 16, int height = 16);
+	bool flyStates = false;
+	bool stageClear;
+public:
+	Player(double playerX, double playerY,int airRemain = 70, float speed = 0.5, int radius = 8, int width = 16, int height = 16);
 
-	void Update();
+	void Update(BackGround stage);
 	void Draw();
 
+	void PlayerHit(BackGround stage);
+	void PlayerHitSub(BackGround stage,int i ,int j);
+	
+	double RplayerY() {
+		return playerY;
+	}
+	bool ReturnClear() {
+		return stageClear;
+	}
+	void TurnClear() {
+		stageClear != stageClear;
+	}
 private:
 	void PlayerInput();
 	void PlayerRun();
-	void StateCheck();
-	void PlayerHit(BackGround stage);
+	bool CheckFlyStates();
 	bool IsPlayerAlive();
 };

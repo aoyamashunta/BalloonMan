@@ -3,56 +3,56 @@
 #include "system/Initialize.h"
 #include "Input.h"
 #include "BackGround.h"
+#include "SceneTrans.h"
 
-BackGround *stage;
-Player *player;
+enum gameplay {
+	START,
+	MAINMENU,
+	PLAY
+};
 
-void GamePlay::MainMenu() {
-	//変数の宣言
-	int graph = LoadGraph("player.png");
 
-
+void GamePlay::Game() {
 	gameEnd = false;
-
+	
 	while(1) {
 		ClearDrawScreen();
 		//---------  ここからプログラムを記述  ----------//
 		//入力処理
 		Input::Update();
-		if(Input::isKeyTrigger(KEY_INPUT_1)) {
-			stageFlag = 1;
-			const char *stageName = { "stage.csv" };
-			stage = new BackGround(stageName);
-			PlayIni(*stage);
-			player = new Player(stage->returnXIni(), stage->returnYIni(), graph);
+		if(sceneFlag == START) {
+
+		}
+		else if(sceneFlag == MAINMENU) {
+
+		}
+		else if(sceneFlag == PLAY) {
+			if(Input::isKeyTrigger(KEY_INPUT_1)) {
+				stageFlag = 1;
+				const char *stageName = { "stage.csv" };
+				PlayIni(stageName);
+			}
 		}
 
-		if(Input::isKeyTrigger(KEY_INPUT_2)) {
-			stageFlag = 2;
-		}
+		//更新・描画処理
+		if(sceneFlag == START) {
 
-		if(Input::isKeyTrigger(KEY_INPUT_3)) {
-			stageFlag = 3;
 		}
+		else if(sceneFlag == MAINMENU) {
 
-		if(Input::isKeyTrigger(KEY_INPUT_4)) {
-			stageFlag = 4;
 		}
-
-		if(Input::isKeyTrigger(KEY_INPUT_Q)) {
-			break;
+		else if(sceneFlag == PLAY) {
+			Play();
 		}
-
-		if(!Play(*stage,*player)) {
-			break;
-		}
-
 
 
 		//描画処理
+		SceneTrans::TransDraw();
+		if(SceneTrans::ReturnError()){ gameEnd = true; }
+		
 		//debug
 		//DrawFormatString(0, 0, GetColor(255, 255, 255), "stageFlag : %d",stageFlag);
-		//DrawFormatString(0, 15, GetColor(255, 255, 255), "player.flame : %d",player1->airRemain);
+		//DrawFormatString(0, 15, GetColor(255, 255, 255), "player.Y : %d",player->RplayerY());
 
 		//---------  ここまでにプログラムを記述  ---------//
 		if(gameEnd == true) { break; }
@@ -60,18 +60,50 @@ void GamePlay::MainMenu() {
 	}
 }
 
-bool GamePlay::PlayIni(BackGround &stage) {
-	if(stage.loadFail()) { return false; }
-	stage.mapChip();
+bool GamePlay::PlayIni(const char *mapName) {
+	stage = new BackGround(mapName);
+	if(stage->LoadFail()) { return false; }
+
+	stage->LoadPlayerIni();
+	player = new Player(stage->ReturnXIni(),
+						stage->ReturnYIni());
+	return true;
 }
 
-bool GamePlay::Play(BackGround &stage,Player &player) {
-
+bool GamePlay::Play() {
+	bool flag = false;
 	if(stageFlag == 1) {
-		stage.mapChip();
+		if(!player->ReturnClear()) {
+			player->Update(*stage);
+			DrawFormatString(0, 15, GetColor(255, 255, 255),
+							 "player.Y : %lf", player->RplayerY());
+		}
+		else if(player->ReturnClear()) {
+			//debug
+			DrawFormatString(200, 200, GetColor(255, 255, 255),
+							 "gameclear");
+			DrawFormatString(90, 215, GetColor(255, 255, 255),
+							 "いずれかのキーを押してください");
 
-		player.Update();
-		player.Draw();
+			if(CheckHitKeyAll()) {
+				flag = true;
+				//delete stage;
+				//delete player;
+				//stageFlag = 0;
+			}
+			if(flag)
+			{
+				if(SceneTrans::TransC())
+				{
+					delete stage;
+					delete player;
+					stageFlag = 0;
+					flag = false;
+				}
+			}
+		}
+		stage->MapChip();
+		player->Draw();
 	}
 	return true;
 }

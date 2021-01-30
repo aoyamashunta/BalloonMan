@@ -6,11 +6,11 @@ private:
 	int mapXSize;
 	int mapYSize;
 	int mapChipMax;
-	int mapChipHandle[10];
-	int map[200][20];
+	int map[200][30];
 	bool error;
 	int playerXIni;
 	int playerYIni;
+	int whiteColor;
 public:
 	BackGround(const char *mapName);
 	bool MapLoad();
@@ -34,4 +34,11 @@ public:
 	int ReturnYSize(){
 		return mapYSize;
 	}
+private:
+	//map_chip Block 
+	void DrawBlock(int i, int j);
+	//map_chip Goal
+	void DrawGoal(int i, int j);
+	//map_chip Spine
+	void DrawSpine(int i, int j);
 };

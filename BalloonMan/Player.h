@@ -26,7 +26,8 @@ private:
 	bool flyStates = false;
 	bool stageClear;
 public:
-	Player(double playerX, double playerY,int airRemain = 70, float speed = 0.5, int radius = 8, int width = 16, int height = 16);
+	Player(double playerX, double playerY,int airRemain = 70,
+		   float speed = 0.5, int radius = 8, int width = 16, int height = 22);
 
 	void Update(BackGround stage);
 	void Draw();
@@ -40,8 +41,11 @@ public:
 	bool ReturnClear() {
 		return stageClear;
 	}
+	bool ReturnAlive() {
+		return playerAlive;
+	}
 	void TurnClear() {
-		stageClear != stageClear;
+		stageClear = !stageClear;
 	}
 private:
 	void PlayerInput();

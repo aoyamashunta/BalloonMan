@@ -3,8 +3,8 @@
 
 const char TITLE[] = "BalloonMan(仮)";
 
-extern int WIN_WIDTH; //ウィンドウ横幅
-extern int WIN_HEIGHT;//ウィンドウ縦幅
+int WIN_WIDTH = 960; //ウィンドウ横幅
+int WIN_HEIGHT = 480;//ウィンドウ縦幅
 
 
 int DXlibInit() {

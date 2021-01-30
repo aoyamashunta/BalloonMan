@@ -131,23 +131,21 @@
     <ClCompile Include="CheckHit.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="GamePlay.cpp" />
+    <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneTrans.cpp" />
-    <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="system\Initialize.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="CheckHit.h" />
+    <ClInclude Include="Initialize.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="GamePlay.h" />
-    <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneTrans.h" />
-    <ClInclude Include="Stage.h" />
-    <ClInclude Include="system\Initialize.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

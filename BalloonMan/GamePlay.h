@@ -6,19 +6,24 @@ class GamePlay {
 private:
 	bool gameEnd;
 	int stageFlag;
-	int sceneFlag = 2;
+	int sceneFlag = 1;
 	bool stageEnd;
+	bool pauseSwitch;
 	BackGround *stage;
 	Player *player;
 
 public:
-	GamePlay() {
-		Game();
-	}
+	GamePlay();
 	void Game();
 private:
+	void Load();
+	bool LoadStart();
 	void Start();
+	bool LoadMainMenu();
 	void MainMenu();
-	bool PlayIni(const char *mapName);
+	bool LoadPlay(const char *mapName);
 	bool Play();
+	void Clear();
+	void GameOver();
+	void Pause();
 };

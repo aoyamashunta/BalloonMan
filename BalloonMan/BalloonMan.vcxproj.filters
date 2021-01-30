@@ -33,22 +33,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="system\Initialize.cpp">
-      <Filter>ソース ファイル\system</Filter>
-    </ClCompile>
     <ClCompile Include="GamePlay.cpp">
       <Filter>ソース ファイル\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>ソース ファイル\system</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage.cpp">
       <Filter>ソース ファイル\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="BackGround.cpp">
@@ -63,18 +54,15 @@
     <ClCompile Include="SceneTrans.cpp">
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Initialize.cpp">
+      <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>ソース ファイル\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="system\Initialize.h">
-      <Filter>ヘッダー ファイル\system</Filter>
-    </ClInclude>
     <ClInclude Include="GamePlay.h">
-      <Filter>ヘッダー ファイル\GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>ヘッダー ファイル\system</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage.h">
       <Filter>ヘッダー ファイル\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="BackGround.h">
@@ -91,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="SceneTrans.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Initialize.h">
+      <Filter>ヘッダー ファイル\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>ヘッダー ファイル\system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

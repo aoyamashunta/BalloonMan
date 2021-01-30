@@ -4,11 +4,12 @@
 #include "Effect.h"
 #include "CheckHit.h"
 
-extern enum blocknum {
+enum blocknum {
 	NONE,
 	BLOCK,
 	PLAYER,
-	GOAL
+	GOAL,
+	SPINE
 };
 
 Player::Player(double playerX, double playerY, int airRemain, float speed, int radius, int width, int height) :
@@ -47,8 +48,14 @@ void Player::Draw() {
 	else {
 		//DrawGraph(playerX, playerY, graph, 1);
 	}
-
-	DrawGraph((int)playerX, (int)playerY, graph, 1);
+	DrawOval((int)(playerX + width / 2), (int)(playerY + (height - 4) / 2),
+			 width / 2, (height - 4) / 2,
+			 GetColor(255, 200, 0), 1);
+	DrawTriangle((int)(playerX + width / 2), (int)(playerY + height - 4),
+				 (int)(playerX + width / 2 - 5), (int)(playerY + height),
+				 (int)(playerX + width / 2 + 5), (int)(playerY + height),
+				 GetColor(255, 200, 0), 1);
+	//DrawGraph((int)playerX, (int)playerY, graph, 1);
 }
 
 void Player::PlayerInput() {
@@ -118,7 +125,7 @@ void Player::PlayerRun() {
 	if(airSwich) {
 		if(flame <= maxFlame) {
 			flame++;
-			airRemain = oldAirRemain + 11 * Effect::EaseOutQuart(flame / maxFlame, 5);
+			airRemain = oldAirRemain + 10 * (flame / maxFlame);
 		}
 		else {
 			flame = 0;
@@ -149,26 +156,39 @@ void Player::PlayerHit(BackGround stage) {
 					stageClear = true;
 				}
 			}
+			else if(stage.ReturnMap(i, j) == SPINE) {
+				if(CheckHit::checkHit((int)playerX,
+									  (int)playerY,
+									  width,
+									  height,
+									  stage.ReturnXSize() * i,
+									  stage.ReturnYSize() * j,
+									  stage.ReturnXSize(),
+									  stage.ReturnYSize())) {
+					playerAlive = false;
+				}
+			}
 		}
+	}
+	if(playerX < -width || playerX > 960 ||
+	   playerY < -height || playerY > 480) {
+		playerAlive = false;
 	}
 }
 
 void Player::PlayerHitSub(BackGround stage, int i, int j) {
 	//ç∂è„ÇÃìñÇΩÇËîªíË
 	if((int)playerX / stage.ReturnXSize() == i &&
-	   (int)playerY / stage.ReturnYSize() == j ) {
+	   (int)playerY / stage.ReturnYSize() == j) {
 		if((int)playerX / stage.ReturnXSize() == i &&
-		   (int)oldPlayerYHit / stage.ReturnYSize() == j )
-		{
+		   (int)oldPlayerYHit / stage.ReturnYSize() == j) {
 			playerX = oldPlayerXHit;
 		}
 		else if((int)oldPlayerXHit / stage.ReturnXSize() == i &&
-				(int)playerY / stage.ReturnYSize() == j )
-		{
+				(int)playerY / stage.ReturnYSize() == j) {
 			playerY = oldPlayerYHit;
 		}
-		else
-		{
+		else {
 			playerX = oldPlayerXHit;
 			playerY = oldPlayerYHit;
 		}
@@ -176,19 +196,16 @@ void Player::PlayerHitSub(BackGround stage, int i, int j) {
 
 	//âEè„ÇÃìñÇΩÇËîªíË
 	if(((int)playerX + width) / stage.ReturnXSize() == i &&
-	   (int)playerY / stage.ReturnYSize() == j ) {
+	   (int)playerY / stage.ReturnYSize() == j) {
 		if(((int)playerX + width) / stage.ReturnXSize() == i &&
-		   (int)oldPlayerYHit / stage.ReturnYSize() == j )
-		{
+		   (int)oldPlayerYHit / stage.ReturnYSize() == j) {
 			playerX = oldPlayerXHit;
 		}
 		else if(((int)oldPlayerXHit + width) / stage.ReturnXSize() == i &&
-				(int)playerY / stage.ReturnYSize() == j )
-		{
+				(int)playerY / stage.ReturnYSize() == j) {
 			playerY = oldPlayerYHit;
 		}
-		else
-		{
+		else {
 			playerX = oldPlayerXHit;
 			playerY = oldPlayerYHit;
 		}
@@ -196,19 +213,16 @@ void Player::PlayerHitSub(BackGround stage, int i, int j) {
 
 	//ç∂â∫ÇÃìñÇΩÇËîªíË
 	if((int)playerX / stage.ReturnXSize() == i &&
-	   ((int)playerY + height) / stage.ReturnYSize() == j ) {
+	   ((int)playerY + height) / stage.ReturnYSize() == j) {
 		if((int)playerX / stage.ReturnXSize() == i &&
-		   ((int)oldPlayerYHit + height) / stage.ReturnYSize() == j )
-		{
+		   ((int)oldPlayerYHit + height) / stage.ReturnYSize() == j) {
 			playerX = oldPlayerXHit;
 		}
 		else if((int)oldPlayerXHit / stage.ReturnXSize() == i &&
-				((int)playerY + height) / stage.ReturnYSize() == j )
-		{
+				((int)playerY + height) / stage.ReturnYSize() == j) {
 			playerY = oldPlayerYHit;
 		}
-		else
-		{
+		else {
 			playerX = oldPlayerXHit;
 			playerY = oldPlayerYHit;
 		}
@@ -216,19 +230,16 @@ void Player::PlayerHitSub(BackGround stage, int i, int j) {
 
 	//âEâ∫ÇÃìñÇΩÇËîªíË
 	if(((int)playerX + width) / stage.ReturnXSize() == i &&
-	   ((int)playerY + height) / stage.ReturnYSize() == j ) {
+	   ((int)playerY + height) / stage.ReturnYSize() == j) {
 		if(((int)playerX + width) / stage.ReturnXSize() == i &&
-		   ((int)oldPlayerYHit + height) / stage.ReturnYSize() == j )
-		{
+		   ((int)oldPlayerYHit + height) / stage.ReturnYSize() == j) {
 			playerX = oldPlayerXHit;
 		}
 		else if(((int)oldPlayerXHit + width) / stage.ReturnXSize() == i &&
-				((int)playerY + height) / stage.ReturnYSize() == j )
-		{
+				((int)playerY + height) / stage.ReturnYSize() == j) {
 			playerY = oldPlayerYHit;
 		}
-		else
-		{
+		else {
 			playerX = oldPlayerXHit;
 			playerY = oldPlayerYHit;
 		}

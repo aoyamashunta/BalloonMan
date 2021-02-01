@@ -62,10 +62,10 @@ bool BackGround::MapLoad() {
 
 void BackGround::MapChip() {
 	//îwåi
-	//for(int i = 0; i < 480; i++) {
-	//		DrawBox(0, i, 960, i + 1,
-	//				GetColor(105 + 114 * i / 480, 179 + 57 * i / 480, 255), 1);
-	//}
+	for(int i = 0; i < 480; i++) {
+			DrawBox(0, i, 960, i + 1,
+					GetColor(105 + 114 * i / 480, 179 + 57 * i / 480, 255), 1);
+	}
 
 	//map chip
 	for(int i = 0; i < 30; i++) {
@@ -148,16 +148,16 @@ void BackGround::DrawBlock(int i,int j) {
 
 void BackGround::DrawGoal(int i, int j) {
 	//goal flagÇÃñ_ÇÃïîï™
-	DrawLine((int)((i + 0.5) * mapXSize),
+	DrawLine((int)((i + 0.25) * mapXSize),
 			 j * mapYSize,
-			 (int)((i + 0.5) * mapXSize),
+			 (int)((i + 0.25) * mapXSize),
 			 (j + 1) * mapYSize,
 			 whiteColor);
 	
 	//goal flagÇÃä¯ÇÃïîï™
-	DrawTriangle((int)((i + 0.5) * mapXSize),
+	DrawTriangle((int)((i + 0.25) * mapXSize),
 				 j * mapYSize,
-				 (int)((i + 0.5) * mapXSize),
+				 (int)((i + 0.25) * mapXSize),
 				 (int)((j + 0.5) * mapYSize),
 				 (i + 1) * mapXSize,
 				 (int)((j + 0.25) * mapYSize),

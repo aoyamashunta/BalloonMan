@@ -44,9 +44,6 @@ public:
 	bool ReturnAlive() {
 		return playerAlive;
 	}
-	void TurnClear() {
-		stageClear = !stageClear;
-	}
 private:
 	void PlayerInput();
 	void PlayerRun();

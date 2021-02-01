@@ -36,18 +36,6 @@ void Player::Update(BackGround stage) {
 }
 
 void Player::Draw() {
-	if(rightSwich) {
-
-	}
-	else if(leftSwich) {
-
-	}
-	else if(airSwich) {
-
-	}
-	else {
-		//DrawGraph(playerX, playerY, graph, 1);
-	}
 	DrawOval((int)(playerX + width / 2), (int)(playerY + (height - 4) / 2),
 			 width / 2, (height - 4) / 2,
 			 GetColor(255, 200, 0), 1);
@@ -139,7 +127,7 @@ bool Player::CheckFlyStates() {
 }
 
 void Player::PlayerHit(BackGround stage) {
-	for(int i = 0; i < 20; i++) {
+	for(int i = 0; i < 30; i++) {
 		for(int j = 0; j < 200; j++) {
 			if(stage.ReturnMap(i, j) == BLOCK) {
 				PlayerHitSub(stage, i, j);
@@ -147,12 +135,12 @@ void Player::PlayerHit(BackGround stage) {
 			else if(stage.ReturnMap(i, j) == GOAL) {
 				if(CheckHit::checkHit((int)playerX,
 									  (int)playerY,
-									  width,
 									  height,
-									  stage.ReturnXSize() * i,
-									  stage.ReturnYSize() * j,
-									  stage.ReturnXSize(),
-									  stage.ReturnYSize())) {
+									  width,
+									  (int)(stage.ReturnXSize() * (i + 0.25)),
+									  (int)(stage.ReturnYSize() * (j + 0.25)),
+									  stage.ReturnYSize(),
+									  stage.ReturnXSize() / 2)) {
 					stageClear = true;
 				}
 			}
